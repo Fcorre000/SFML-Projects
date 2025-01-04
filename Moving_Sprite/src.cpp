@@ -1,53 +1,57 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <iostream>
+using namespace std;
+
 
 int main()
 {
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
- 
-    // Load a sprite to display
+   
+    
+
     sf::Texture texture;
-    if (!texture.loadFromFile("cute_image.jpg"))
-        return EXIT_FAILURE;
+    texture.loadFromFile("/Users/fortnitekorea/Desktop/SFML-Projects/Moving_Sprite/—Pngtree—character pixel art man_6178368.png");
+    //setup our sprite with a texture
     sf::Sprite sprite(texture);
- 
-    // Create a graphical text to display
-    sf::Font font;
-    if (!font.loadFromFile("arial.ttf"))
-        return EXIT_FAILURE;
-    sf::Text text("Hello SFML", font, 50);
- 
-    // Load a music to play
-    sf::Music music;
-    if (!music.openFromFile("nice_music.ogg"))
-        return EXIT_FAILURE;
- 
-    // Play the music
-    music.play();
- 
+    sprite.setScale(.3, .3);
+    double x = 50;
+    double y = 50;
+
+    bool drawCircle = false; // Flag to track if the circle should be drawn
+
     // Start the game loop
     while (window.isOpen())
     {
+        sprite.setPosition(x,y);
         // Process events
         sf::Event event;
         while (window.pollEvent(event))
         {
             // Close window: exit
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed){
+                cout << "Window Closed Successfully.\n";
                 window.close();
+            }           
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+            y -= .2;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+            y += .2;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+            x -= .2;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            x += .2;
         }
  
         // Clear screen
         window.clear();
- 
-        // Draw the sprite
+        //draw sprites
         window.draw(sprite);
- 
-        // Draw the string
-        window.draw(text);
- 
         // Update the window
         window.display();
     }
