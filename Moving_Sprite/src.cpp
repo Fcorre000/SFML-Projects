@@ -18,8 +18,8 @@ int main()
     //setup our sprite with a texture
     sf::Sprite sprite(texture);
     sprite.setScale(.2, .2);
-    double x = 50;
-    double y = 50;
+    double x = (windowLength / 3);//to be adjusted if sprite size is changed
+    double y = (windowHeight / 3);//to be adjusted if sprite size is changed
     // Get the sprite's size
     sf::FloatRect spriteBounds = sprite.getGlobalBounds();
 
