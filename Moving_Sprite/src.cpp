@@ -7,7 +7,9 @@ using namespace std;
 int main()
 {
     // Create the main window
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
+    int windowLength = 800;
+    int windowHeight = 600;
+    sf::RenderWindow window(sf::VideoMode(windowLength, windowHeight), "SFML window");
    
     
 
@@ -15,9 +17,11 @@ int main()
     texture.loadFromFile("/Users/fortnitekorea/Desktop/SFML-Projects/Moving_Sprite/—Pngtree—character pixel art man_6178368.png");
     //setup our sprite with a texture
     sf::Sprite sprite(texture);
-    sprite.setScale(.3, .3);
+    sprite.setScale(.2, .2);
     double x = 50;
     double y = 50;
+    // Get the sprite's size
+    sf::FloatRect spriteBounds = sprite.getGlobalBounds();
 
     bool drawCircle = false; // Flag to track if the circle should be drawn
 
@@ -35,16 +39,16 @@ int main()
                 window.close();
             }           
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && (y > 0)) {
             y -= .2;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && (y + spriteBounds.height < windowHeight) ) {
             y += .2;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && (x > 0)) {
             x -= .2;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && (x + spriteBounds.width) < windowLength) {
             x += .2;
         }
  
