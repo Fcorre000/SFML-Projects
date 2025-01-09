@@ -3,6 +3,21 @@
 #include <iostream>
 using namespace std;
 
+//function to control the sprite using the WASD keys
+void handleSpriteMovement(double &x, double &y, const sf::FloatRect &spriteBounds, int windowLength, int windowHeight){
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && (y > 0)) {
+        y -= 8;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && (y + spriteBounds.height < windowHeight) ) {
+        y += 8;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && (x > 0)) {
+        x -= 8;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && (x + spriteBounds.width) < windowLength) {
+        x += 8;
+    }
+}
 
 int main()
 {
@@ -12,23 +27,29 @@ int main()
     sf::RenderWindow window(sf::VideoMode(windowLength, windowHeight), "SFML window");
    
     
-
+    //Creating the sprite
     sf::Texture texture;
     texture.loadFromFile("/Users/fortnitekorea/Desktop/SFML-Projects/Moving_Sprite/—Pngtree—character pixel art man_6178368.png");
-    //setup our sprite with a texture
-    sf::Sprite sprite(texture);
-    sprite.setScale(.2, .2);
+    sf::Sprite sprite(texture);//setup our sprite with a texture
+    sprite.setScale(.2, .2);//shrink the sprite to fit window
     double x = (windowLength / 3);//to be adjusted if sprite size is changed
     double y = (windowHeight / 3);//to be adjusted if sprite size is changed
-    // Get the sprite's size
-    sf::FloatRect spriteBounds = sprite.getGlobalBounds();
+    sf::FloatRect spriteBounds = sprite.getGlobalBounds();// Get the sprite's size
 
-    bool drawCircle = false; // Flag to track if the circle should be drawn
+
+    //object for timing/fps
+    sf::Clock clock; 
+    window.setFramerateLimit(60);
 
     // Start the game loop
     while (window.isOpen())
     {
-        sprite.setPosition(x,y);
+        //compute frame time
+        float currentTime = clock.restart().asSeconds();//returns time object and stored as a float
+        float fps = 1.0f/(currentTime);
+        cout << "fps: " << fps << "\n";
+
+        sprite.setPosition(x,y);//sets initial position of sprite
         // Process events
         sf::Event event;
         while (window.pollEvent(event))
@@ -39,25 +60,14 @@ int main()
                 window.close();
             }           
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && (y > 0)) {
-            y -= .2;
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && (y + spriteBounds.height < windowHeight) ) {
-            y += .2;
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && (x > 0)) {
-            x -= .2;
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && (x + spriteBounds.width) < windowLength) {
-            x += .2;
-        }
+        handleSpriteMovement(x, y, spriteBounds, windowLength, windowHeight);//movement with WASD keys
+        
  
-        // Clear screen
-        window.clear();
-        //draw sprites
-        window.draw(sprite);
-        // Update the window
-        window.display();
+        //clearing and displaying everything continuously until we stop the program
+        //order of things drawn matters
+        window.clear();// Clear screen
+        window.draw(sprite);//draw sprite 
+        window.display();// Update the window
     }
  
     return EXIT_SUCCESS;
