@@ -86,11 +86,11 @@ public:
             curAnimation = AnimationIndex::WalkingDown;
         }
     }
-    void Update(float dt){
-        pos += vel * dt;
-        animations[int(curAnimation)].Update(dt);
-        animations[int(curAnimation)].ApplyToSprite(sprite);
-        sprite.setPosition(pos);
+    void Update(float dt) {
+        pos += vel * dt;  // Update position based on velocity and elapsed time
+        animations[int(curAnimation)].Update(dt);  // Update the current animation
+        animations[int(curAnimation)].ApplyToSprite(sprite);  // Apply the current animation to the sprite
+        sprite.setPosition(pos);  // Set the sprite's position
     }
 
 
